@@ -1,0 +1,654 @@
+export type NotebookExample = {
+  id: string;
+  tier: "Low" | "High";
+  score: number;
+  image: string;
+  originalImage: string;
+  pairTypes: string[];
+  note: string;
+};
+
+export const notebookExamples: NotebookExample[] = [
+  {
+    id: "low-014205",
+    tier: "Low",
+    score: 0.227,
+    image: "/outfit-demo/notebook/low-014205.png",
+    originalImage: "014205.jpg",
+    pairTypes: ["long_sleeve_top", "trousers"],
+    note:
+      "A clean monochrome look that still scored low in the notebook, which is a useful reminder that the model is learning pairwise visual signals rather than human styling taste alone.",
+  },
+  {
+    id: "low-019230",
+    tier: "Low",
+    score: 0.234,
+    image: "/outfit-demo/notebook/low-019230.png",
+    originalImage: "019230.jpg",
+    pairTypes: ["short_sleeve_top", "trousers"],
+    note:
+      "The wide black trouser anchors the outfit visually, but the model stayed cautious on this pastel tee and culotte pairing.",
+  },
+  {
+    id: "low-001816",
+    tier: "Low",
+    score: 0.247,
+    image: "/outfit-demo/notebook/low-001816.png",
+    originalImage: "001816.jpg",
+    pairTypes: ["short_sleeve_top", "trousers"],
+    note:
+      "Another notebook low-score example. The graphic crop and slim trouser combo reads coherent to a person, but the learned compatibility head still marked it as weak.",
+  },
+  {
+    id: "high-015155",
+    tier: "High",
+    score: 0.702,
+    image: "/outfit-demo/notebook/high-015155.png",
+    originalImage: "015155.jpg",
+    pairTypes: ["trousers", "long_sleeve_top", "short_sleeve_top"],
+    note:
+      "This darker tonal outfit produced one of the strongest notebook scores. Repeated dark fabric cues seem to give the pairwise model a very confident signal.",
+  },
+  {
+    id: "high-019140",
+    tier: "High",
+    score: 0.703,
+    image: "/outfit-demo/notebook/high-019140.png",
+    originalImage: "019140.jpg",
+    pairTypes: ["trousers", "short_sleeve_top"],
+    note:
+      "A vivid red knit with washed denim landed near the top of the scored sample set, showing the model can reward bold but legible contrast.",
+  },
+  {
+    id: "high-012714",
+    tier: "High",
+    score: 0.704,
+    image: "/outfit-demo/notebook/high-012714.png",
+    originalImage: "012714.jpg",
+    pairTypes: ["trousers", "long_sleeve_top", "short_sleeve_top"],
+    note:
+      "This minimal white-and-navy outfit was the strongest saved example in the notebook outputs we extracted for the demo gallery.",
+  },
+];
+
+export const projectMetrics = [
+  {
+    value: "354",
+    label: "Notebook-scored outfits",
+    detail: "Real outputs pulled from the `score_outfit_from_crops` workflow in your notebook.",
+  },
+  {
+    value: "6",
+    label: "Saved model examples",
+    detail: "Low and high compatibility figures exported directly from notebook cell outputs.",
+  },
+  {
+    value: "11",
+    label: "Curated garment crops",
+    detail: "Local crop assets reused for the browser playground inside this Vercel-friendly build.",
+  },
+  {
+    value: "1",
+    label: "Deploy target",
+    detail: "Pure Next.js app with static assets, so Vercel deployment stays simple.",
+  },
+];
+
+export const pipelineSteps = [
+  {
+    title: "1. Segment garments",
+    body:
+      "YOLOv8 garment segmentation generates the masked crops that feed the rest of the compatibility pipeline.",
+  },
+  {
+    title: "2. Embed garment pairs",
+    body:
+      "A ResNet18 encoder combines crop appearance with coarse garment type embeddings before scoring valid pairs.",
+  },
+  {
+    title: "3. Aggregate outfit score",
+    body:
+      "The notebook averages compatibility over valid garment pairs to produce the final outfit-level score shown in the gallery.",
+  },
+];
+
+export const deploymentNotes = [
+  "The gallery uses real notebook outputs from your trained pipeline.",
+  "The playground uses a lightweight browser score so this version stays easy to deploy on Vercel without a separate PyTorch inference service.",
+  "If you later export the model to ONNX or move inference to an external API, this UI can be upgraded without redesigning the app.",
+];
+
+export const USStates = [
+  { label: "Alabama", value: "AL" },
+  { label: "Alaska", value: "AK" },
+  { label: "Arizona", value: "AZ" },
+  { label: "Arkansas", value: "AR" },
+  { label: "California", value: "CA" },
+  { label: "Colorado", value: "CO" },
+  { label: "Connecticut", value: "CT" },
+  { label: "Delaware", value: "DE" },
+  { label: "Florida", value: "FL" },
+  { label: "Georgia", value: "GA" },
+  { label: "Hawaii", value: "HI" },
+  { label: "Idaho", value: "ID" },
+  { label: "Illinois", value: "IL" },
+  { label: "Indiana", value: "IN" },
+  { label: "Iowa", value: "IA" },
+  { label: "Kansas", value: "KS" },
+  { label: "Kentucky", value: "KY" },
+  { label: "Louisiana", value: "LA" },
+  { label: "Maine", value: "ME" },
+  { label: "Maryland", value: "MD" },
+  { label: "Massachusetts", value: "MA" },
+  { label: "Michigan", value: "MI" },
+  { label: "Minnesota", value: "MN" },
+  { label: "Mississippi", value: "MS" },
+  { label: "Missouri", value: "MO" },
+  { label: "Montana", value: "MT" },
+  { label: "Nebraska", value: "NE" },
+  { label: "Nevada", value: "NV" },
+  { label: "New Hampshire", value: "NH" },
+  { label: "New Jersey", value: "NJ" },
+  { label: "New Mexico", value: "NM" },
+  { label: "New York", value: "NY" },
+  { label: "North Carolina", value: "NC" },
+  { label: "North Dakota", value: "ND" },
+  { label: "Ohio", value: "OH" },
+  { label: "Oklahoma", value: "OK" },
+  { label: "Oregon", value: "OR" },
+  { label: "Pennsylvania", value: "PA" },
+  { label: "Rhode Island", value: "RI" },
+  { label: "South Carolina", value: "SC" },
+  { label: "South Dakota", value: "SD" },
+  { label: "Tennessee", value: "TN" },
+  { label: "Texas", value: "TX" },
+  { label: "Utah", value: "UT" },
+  { label: "Vermont", value: "VT" },
+  { label: "Virginia", value: "VA" },
+  { label: "Washington", value: "WA" },
+  { label: "West Virginia", value: "WV" },
+  { label: "Wisconsin", value: "WI" },
+  { label: "Wyoming", value: "WY" },
+];
+
+export type GarmentKind = "top" | "bottom";
+export type PaletteFamily =
+  | "dark-neutral"
+  | "light-neutral"
+  | "soft-pastel"
+  | "denim-dark"
+  | "denim-light"
+  | "denim-medium"
+  | "accent-print";
+export type TopShape = "boxy" | "relaxed" | "structured" | "fluid";
+export type BottomShape = "slim" | "wide" | "relaxed" | "flared" | "short";
+export type StyleMood =
+  | "graphic"
+  | "minimal"
+  | "tailored"
+  | "romantic"
+  | "casual"
+  | "edgy"
+  | "playful";
+
+export type Garment = {
+  id: string;
+  name: string;
+  kind: GarmentKind;
+  image: string;
+  palette: PaletteFamily;
+  shape: TopShape | BottomShape;
+  mood: StyleMood;
+  note: string;
+};
+
+export const tops: Garment[] = [
+  {
+    id: "navy-art-tee",
+    name: "Navy Art Tee",
+    kind: "top",
+    image: "/outfit-demo/garments/144165_obj1_short_sleeve_top.png",
+    palette: "dark-neutral",
+    shape: "boxy",
+    mood: "graphic",
+    note: "Relaxed silhouette with a bold illustrated print.",
+  },
+  {
+    id: "ivory-crinkle-shirt",
+    name: "Ivory Crinkle Shirt",
+    kind: "top",
+    image: "/outfit-demo/garments/156907_obj0_short_sleeve_top.png",
+    palette: "light-neutral",
+    shape: "relaxed",
+    mood: "minimal",
+    note: "Soft, airy shirt that works as a clean anchor piece.",
+  },
+  {
+    id: "black-monster-tee",
+    name: "Black Monster Tee",
+    kind: "top",
+    image: "/outfit-demo/garments/154089_obj0_short_sleeve_top.png",
+    palette: "dark-neutral",
+    shape: "boxy",
+    mood: "graphic",
+    note: "A louder graphic top with more streetwear energy.",
+  },
+  {
+    id: "charcoal-rib-knit",
+    name: "Charcoal Rib Knit",
+    kind: "top",
+    image: "/outfit-demo/garments/181336_obj1_long_sleeve_top.png",
+    palette: "dark-neutral",
+    shape: "structured",
+    mood: "tailored",
+    note: "A sharper, darker knit with architectural sleeves.",
+  },
+  {
+    id: "peach-botanical-blouse",
+    name: "Peach Botanical Blouse",
+    kind: "top",
+    image: "/outfit-demo/garments/166119_obj0_long_sleeve_top.png",
+    palette: "soft-pastel",
+    shape: "fluid",
+    mood: "romantic",
+    note: "Lightweight printed blouse with softer visual movement.",
+  },
+];
+
+export const bottoms: Garment[] = [
+  {
+    id: "ripped-black-skinny",
+    name: "Ripped Black Skinny",
+    kind: "bottom",
+    image: "/outfit-demo/garments/147920_obj0_trousers.png",
+    palette: "dark-neutral",
+    shape: "slim",
+    mood: "edgy",
+    note: "High-contrast distressed trouser that tightens the silhouette.",
+  },
+  {
+    id: "indigo-wide-trouser",
+    name: "Indigo Wide Trouser",
+    kind: "bottom",
+    image: "/outfit-demo/garments/188124_obj0_trousers.png",
+    palette: "denim-dark",
+    shape: "wide",
+    mood: "casual",
+    note: "Dark denim with a roomier, more grounded shape.",
+  },
+  {
+    id: "light-denim-jogger",
+    name: "Light Denim Jogger",
+    kind: "bottom",
+    image: "/outfit-demo/garments/134135_obj0_trousers.png",
+    palette: "denim-light",
+    shape: "relaxed",
+    mood: "casual",
+    note: "Paler denim that keeps the outfit breezier and more playful.",
+  },
+  {
+    id: "tribal-midi-skirt",
+    name: "Tribal Midi Skirt",
+    kind: "bottom",
+    image: "/outfit-demo/garments/137918_obj0_skirt.png",
+    palette: "soft-pastel",
+    shape: "flared",
+    mood: "playful",
+    note: "Textured geometric pattern with movement and visual rhythm.",
+  },
+  {
+    id: "tropical-midi-skirt",
+    name: "Tropical Midi Skirt",
+    kind: "bottom",
+    image: "/outfit-demo/garments/189589_obj0_skirt.png",
+    palette: "accent-print",
+    shape: "flared",
+    mood: "playful",
+    note: "Statement floral print that becomes the focal point immediately.",
+  },
+  {
+    id: "denim-short",
+    name: "Denim Short",
+    kind: "bottom",
+    image: "/outfit-demo/garments/186826_obj0_shorts.png",
+    palette: "denim-medium",
+    shape: "short",
+    mood: "casual",
+    note: "A casual summer option that lightens the whole look.",
+  },
+];
+
+type Signal = {
+  points: number;
+  title: string;
+  detail: string;
+};
+
+export type PreviewScore = {
+  score: number;
+  label: "Strong match" | "Promising mix" | "Exploratory combo";
+  summary: string;
+  reasons: string[];
+};
+
+const paletteSignals: Record<string, Signal> = {
+  "accent-print|dark-neutral": {
+    points: 8,
+    title: "Statement balance",
+    detail: "The dark piece gives the print a stable base instead of competing with it.",
+  },
+  "accent-print|light-neutral": {
+    points: 10,
+    title: "Light support",
+    detail: "A brighter neutral lets the print stay central without turning noisy.",
+  },
+  "accent-print|soft-pastel": {
+    points: 6,
+    title: "Soft-on-soft",
+    detail: "The pairing is gentle, but it risks feeling visually busy when both pieces want attention.",
+  },
+  "dark-neutral|dark-neutral": {
+    points: 16,
+    title: "Tonal cohesion",
+    detail: "Both garments sit in the same visual family, which usually reads intentional fast.",
+  },
+  "dark-neutral|denim-dark": {
+    points: 13,
+    title: "Low-key contrast",
+    detail: "The indigo bottom keeps enough separation while preserving a sleek outline.",
+  },
+  "dark-neutral|denim-light": {
+    points: 12,
+    title: "Anchored denim",
+    detail: "A darker top helps lighter denim feel grounded instead of washed out.",
+  },
+  "dark-neutral|light-neutral": {
+    points: 18,
+    title: "Classic contrast",
+    detail: "Light top, grounded bottom is still one of the easiest combinations to read as polished.",
+  },
+  "dark-neutral|soft-pastel": {
+    points: 11,
+    title: "Soft contrast",
+    detail: "The darker element gives the pastel piece structure and a clearer visual edge.",
+  },
+  "denim-dark|light-neutral": {
+    points: 16,
+    title: "Clean indigo pairing",
+    detail: "A crisp neutral top and dark denim tend to feel effortless and versatile.",
+  },
+  "denim-dark|soft-pastel": {
+    points: 14,
+    title: "Romantic denim",
+    detail: "The darker denim keeps the softer blouse from drifting too far into sweetness.",
+  },
+  "denim-light|light-neutral": {
+    points: 12,
+    title: "Airy neutrals",
+    detail: "This stays bright and easy, although it relies more on silhouette than color drama.",
+  },
+  "denim-light|soft-pastel": {
+    points: 15,
+    title: "Soft summer palette",
+    detail: "Pastels and lighter denim give the combo a clear warm-weather logic.",
+  },
+  "denim-medium|light-neutral": {
+    points: 14,
+    title: "Easy warm-weather mix",
+    detail: "A light top and medium denim short create an approachable, balanced contrast.",
+  },
+  "denim-medium|soft-pastel": {
+    points: 13,
+    title: "Relaxed color bridge",
+    detail: "The denim keeps the pastel top approachable rather than overly delicate.",
+  },
+  "light-neutral|soft-pastel": {
+    points: 11,
+    title: "Soft tonal story",
+    detail: "The colors sit close together, so the combo feels gentle but needs shape to stay defined.",
+  },
+  "soft-pastel|soft-pastel": {
+    points: 9,
+    title: "Muted harmony",
+    detail: "The tones agree, though the outfit depends on movement or texture for energy.",
+  },
+};
+
+const silhouetteSignals: Record<string, Signal> = {
+  "boxy|flared": {
+    points: 8,
+    title: "Shape rhythm",
+    detail: "A relaxed top with movement below creates a deliberate outline instead of a flat column.",
+  },
+  "boxy|relaxed": {
+    points: 7,
+    title: "Easy proportion",
+    detail: "This keeps things casual, though both pieces stay fairly loose.",
+  },
+  "boxy|short": {
+    points: 9,
+    title: "Summer proportion",
+    detail: "Shorter bottoms keep the oversized top from feeling heavy.",
+  },
+  "boxy|slim": {
+    points: 12,
+    title: "Strong counterbalance",
+    detail: "Volume on top and a cleaner line below gives the eye an easy structure to follow.",
+  },
+  "boxy|wide": {
+    points: 7,
+    title: "Relaxed silhouette",
+    detail: "Both pieces lean roomy, so the result feels casual more than sharply defined.",
+  },
+  "fluid|flared": {
+    points: 5,
+    title: "Movement on movement",
+    detail: "It can feel dreamy, but the look risks floating unless the palette is very controlled.",
+  },
+  "fluid|relaxed": {
+    points: 6,
+    title: "Soft shape story",
+    detail: "A relaxed bottom keeps the mood easy, though the outfit loses some edge.",
+  },
+  "fluid|short": {
+    points: 8,
+    title: "Lightweight contrast",
+    detail: "The shorter bottom stops the blouse from overwhelming the outfit.",
+  },
+  "fluid|slim": {
+    points: 9,
+    title: "Guided drape",
+    detail: "The slimmer bottom gives the blouse somewhere clean to land visually.",
+  },
+  "fluid|wide": {
+    points: 6,
+    title: "Loose frame",
+    detail: "Comfort comes easily here, but the look reads softer than structured.",
+  },
+  "relaxed|flared": {
+    points: 8,
+    title: "Casual swing",
+    detail: "The outfit has movement without feeling too sharp or too stiff.",
+  },
+  "relaxed|short": {
+    points: 9,
+    title: "Warm-weather balance",
+    detail: "A softer shirt paired with shorts usually feels proportionate and light.",
+  },
+  "relaxed|slim": {
+    points: 10,
+    title: "Grounded top layer",
+    detail: "A cleaner lower line stops the relaxed top from feeling overly oversized.",
+  },
+  "relaxed|wide": {
+    points: 7,
+    title: "Easy volume",
+    detail: "Comfort-forward proportions that work best when the palette stays clean.",
+  },
+  "structured|flared": {
+    points: 7,
+    title: "Tailored contrast",
+    detail: "A strong top with a moving hem gives the outfit a fashion-editorial direction.",
+  },
+  "structured|relaxed": {
+    points: 8,
+    title: "Controlled ease",
+    detail: "The sharper top brings focus to a more forgiving bottom silhouette.",
+  },
+  "structured|short": {
+    points: 7,
+    title: "Crisp casual mix",
+    detail: "This introduces contrast, though the short bottom makes the outfit more playful than polished.",
+  },
+  "structured|slim": {
+    points: 12,
+    title: "Clean vertical line",
+    detail: "This is the sharpest proportion in the set and usually reads the most intentional.",
+  },
+  "structured|wide": {
+    points: 9,
+    title: "Tailored drape",
+    detail: "The strong top keeps the wider bottom from losing definition.",
+  },
+};
+
+const moodSignals: Record<string, Signal> = {
+  "casual|graphic": {
+    points: 7,
+    title: "Weekend energy",
+    detail: "Graphic tops and easy bottoms naturally land in a wearable, everyday zone.",
+  },
+  "casual|minimal": {
+    points: 8,
+    title: "Understated ease",
+    detail: "A quieter top lets the casual bottom do its job without friction.",
+  },
+  "casual|romantic": {
+    points: 7,
+    title: "Soft-meets-easy",
+    detail: "The contrast is approachable and often feels more modern than fully dressy.",
+  },
+  "casual|tailored": {
+    points: 7,
+    title: "High-low mix",
+    detail: "The outfit gets structure without losing wearability.",
+  },
+  "edgy|graphic": {
+    points: 10,
+    title: "Shared attitude",
+    detail: "Both pieces communicate the same stronger styling signal, so the pairing feels deliberate.",
+  },
+  "edgy|tailored": {
+    points: 5,
+    title: "Tension pairing",
+    detail: "There is contrast here, but it needs careful styling to avoid feeling split between moods.",
+  },
+  "graphic|minimal": {
+    points: 6,
+    title: "Graphic anchor",
+    detail: "The cleaner piece keeps the print from taking over the whole outfit.",
+  },
+  "graphic|playful": {
+    points: 4,
+    title: "Competing focal points",
+    detail: "Both garments want to lead, so the outfit can start to feel crowded.",
+  },
+  "minimal|playful": {
+    points: 6,
+    title: "Quiet top, louder bottom",
+    detail: "The mix works when you want the bottom half to carry the story.",
+  },
+  "minimal|tailored": {
+    points: 10,
+    title: "Polished clarity",
+    detail: "This is the cleanest styling lane in the demo and usually reads strongest.",
+  },
+  "minimal|romantic": {
+    points: 7,
+    title: "Soft restraint",
+    detail: "The neutral top gives the romantic piece room without making the look too sweet.",
+  },
+  "playful|romantic": {
+    points: 10,
+    title: "Shared softness",
+    detail: "Both pieces move in the same expressive direction, so the outfit feels coherent.",
+  },
+};
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
+
+const unorderedKey = (left: string, right: string) =>
+  [left, right].sort().join("|");
+
+const getPaletteSignal = (top: Garment, bottom: Garment): Signal =>
+  paletteSignals[unorderedKey(top.palette, bottom.palette)] ?? {
+    points: 9,
+    title: "Usable contrast",
+    detail: "The colors are workable together, but the pairing relies on styling confidence more than automatic harmony.",
+  };
+
+const getSilhouetteSignal = (top: Garment, bottom: Garment): Signal =>
+  silhouetteSignals[`${top.shape}|${bottom.shape}`] ?? {
+    points: 7,
+    title: "Balanced enough",
+    detail: "The proportions are serviceable, even if they are not the sharpest match in the set.",
+  };
+
+const getMoodSignal = (top: Garment, bottom: Garment): Signal =>
+  moodSignals[unorderedKey(top.mood, bottom.mood)] ?? {
+    points: 6,
+    title: "Mixed styling cues",
+    detail: "There is room to make this work, but the pieces are not naturally telling the same story.",
+  };
+
+export const scoreBrowserPreview = (
+  top: Garment,
+  bottom: Garment,
+): PreviewScore => {
+  const palette = getPaletteSignal(top, bottom);
+  const silhouette = getSilhouetteSignal(top, bottom);
+  const mood = getMoodSignal(top, bottom);
+
+  const total = clamp(48 + palette.points + silhouette.points + mood.points, 0, 100);
+
+  if (total >= 80) {
+    return {
+      score: total,
+      label: "Strong match",
+      summary:
+        "This combination has the clearest visual logic in the browser demo. The palette, shape, and styling cues reinforce each other instead of competing.",
+      reasons: [
+        `${palette.title}: ${palette.detail}`,
+        `${silhouette.title}: ${silhouette.detail}`,
+        `${mood.title}: ${mood.detail}`,
+      ],
+    };
+  }
+
+  if (total >= 68) {
+    return {
+      score: total,
+      label: "Promising mix",
+      summary:
+        "There is a clear direction here, but one styling dimension is doing more of the work. This is usually the kind of look that benefits from accessories or cleaner styling around it.",
+      reasons: [
+        `${palette.title}: ${palette.detail}`,
+        `${silhouette.title}: ${silhouette.detail}`,
+        `${mood.title}: ${mood.detail}`,
+      ],
+    };
+  }
+
+  return {
+    score: total,
+    label: "Exploratory combo",
+    summary:
+      "The pairing is still wearable, but the pieces are pushing in different directions. That tension can be interesting, just less immediately cohesive.",
+    reasons: [
+      `${palette.title}: ${palette.detail}`,
+      `${silhouette.title}: ${silhouette.detail}`,
+      `${mood.title}: ${mood.detail}`,
+    ],
+  };
+};

@@ -1,4 +1,13 @@
 DeepFasion2/
+node_modules/
+.next/
+out/
+build/
+coverage/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+notebook_output_previews/
 
 # Python common:
 # Byte-compiled / optimized / DLL files
