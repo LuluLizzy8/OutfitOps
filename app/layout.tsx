@@ -14,9 +14,9 @@ const cormorantGaramond = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "OutfitOps Compatibility Studio",
+  title: "OutfitOps Product Demo",
   description:
-    "A Vercel-ready Next.js showcase for notebook-generated outfit compatibility results, garment crops, and a lightweight browser demo.",
+    "A product demo website for the OutfitOps project, showing what the system does, how the model works, and what results it produces.",
 };
 
 export default function RootLayout({
